@@ -3,8 +3,6 @@ package parser;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Date;
-
 import org.junit.Test;
 
 public class StringParserTest {
@@ -86,6 +84,9 @@ public class StringParserTest {
 						StringParser.convertStringToCalendar(dates, times)[0].getTime());
 		assertEquals(StringParser.parseStringToDate("Tue Dec 23 15:30:00 SGT 2014"), 
 				StringParser.convertStringToCalendar(dates, times)[1].getTime());
+		String[] invalidDates = StringParser.getFormattedDates("Hello how 31/2/14 are you @1200-1530 today?");
+		String[] invalidTimes = StringParser.getFormattedTimes("Hello how 31/2/14 are you @1200-1530 today?");
+		assertArrayEquals(null, StringParser.convertStringToCalendar(invalidDates, invalidTimes));
 	}
 	
 	@Test
@@ -124,8 +125,8 @@ public class StringParserTest {
 	
 	@Test
 	public void testGetTaskIdFromString() {
-		assertEquals(23, StringParser.getTaskIdFromString("this is my T23task \"and this my description\" blah blah 23/3/12"));
-		assertEquals(4242, StringParser.getTaskIdFromString("T4242 Meet John about proposal @1200 #cs2103 \"my desc\" #cs2101"));
+		assertEquals(0, StringParser.getTaskIdFromString("this is my 23 task \"and this my description\" blah blah 23/3/12"));
+		assertEquals(4242, StringParser.getTaskIdFromString("4242 Meet John about proposal @1200 #cs2103 \"my desc\" #cs2101"));
 		assertEquals(0, StringParser.getTaskIdFromString("Meet Task John about proposal @1200 #cs2103 #cs2101"));
 	}
 	

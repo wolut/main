@@ -1,9 +1,6 @@
 package parser;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,7 +16,7 @@ public class StringParser {
 	private static Pattern ddmmyy = Pattern.compile("(\\s(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/(\\d\\d))\\s");
 	private static Pattern hhmm = Pattern.compile("@((0[0-9]|1[0-9]|2[0-3])([0-5][0-9]))(-((0[0-9]|1[0-9]|2[0-3])([0-5][0-9])))?");
 	private static Pattern quotes = Pattern.compile("\"([^\"]*)\"");
-	private static Pattern taskId = Pattern.compile("(T[0-9]+)");
+	private static Pattern taskId = Pattern.compile("(^[0-9]+)");
 	private static Pattern tags = Pattern.compile("#\\w+");
 	
 	private static SimpleDateFormat dateTimeFormat = new SimpleDateFormat("d/M/yy HHmm");
@@ -79,6 +76,8 @@ public class StringParser {
 				startCal = null;
 				endCal = null;
 			} else {
+				dateFormat.setLenient(false);
+				dateTimeFormat.setLenient(false);
 				if (times[0] == null) { // no start time
 					String startDate = dates[0];
 					startCal.setTime(dateFormat.parse(startDate));
@@ -182,7 +181,7 @@ public class StringParser {
 		int taskId = 0;
 		
 		if (m.find()) {
-			taskId = Integer.parseInt(m.group().substring(1));
+			taskId = Integer.parseInt(m.group());
 		}
 		
 		return taskId;
