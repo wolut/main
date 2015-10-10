@@ -27,15 +27,15 @@ public class Add implements Command {
 
 	@Override
 	public void execute() {
-		if (specifications.getTaskType() == 2) {
+		if (specifications.getTaskType() == 1) {
+			newTask = new Task(specifications);
+			newTask.setId(id);
+			storage.add(newTask);
+		} else if (specifications.getTaskType() == 2) {
 			DeadlineTask newDeadlineTask = new DeadlineTask(specifications);
 			newDeadlineTask.setId(id);
 			storage.add((Task) newDeadlineTask);
 			newTask = newDeadlineTask;
-		} else if (specifications.getTaskType() == 1) {
-			newTask = new Task(specifications);
-			newTask.setId(id);
-			storage.add(newTask);
 		} else if (specifications.getTaskType() == 3) {
 			Event newEvent = new Event(specifications);
 			newEvent.setId(id);
@@ -69,15 +69,15 @@ public class Add implements Command {
 			return false;
 		}
 		if (taskType == TASK) {
-			if (parsedInput.getEnd() != null) { // Error: Task Should have no End Field
+			if (parsedInput.getSecondDate() != null) { // Error: Task Should have no End Field
 				view.setConsoleMessage("Error: Task Should have no end field");
 				return false;
-			} else if (parsedInput.getStart() != null) { // Error: Task Should have no Start Field
+			} else if (parsedInput.getFirstDate() != null) { // Error: Task Should have no Start Field
 				view.setConsoleMessage("Error: Task Should have no start field");
 				return false;
 			}
 		} else if (taskType == DEADLINETASK) {
-			if (parsedInput.getStart() != null) { // Error: DeadlineTask Should have no Start Field
+			if (parsedInput.getSecondDate() != null) { // Error: DeadlineTask Should have no Start Field
 				view.setConsoleMessage("Error: DeadlineTask Should have no start field");
 				return false;
 			}
